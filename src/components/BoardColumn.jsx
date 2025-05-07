@@ -128,6 +128,7 @@
 // }
 
 // export default BoardColumn;
+
 import './BoardColumn.css';
 import React, { useState } from 'react';
 import { Droppable, Draggable } from '@hello-pangea/dnd';
@@ -137,14 +138,13 @@ function BoardColumn({ column, colIndex, columns, setColumns }) {
   const [cardInput, setCardInput] = useState('');
   const [isEditingTitle, setIsEditingTitle] = useState(false);
   const [editedTitle, setEditedTitle] = useState(column.title);
-
   const [editingCardIndex, setEditingCardIndex] = useState(null);
   const [editedCardText, setEditedCardText] = useState('');
 
   const addCard = () => {
     if (cardInput.trim() === '') return;
     const updated = [...columns];
-    updated[colIndex].cards.push({ content: cardInput.trim() }); // ✅ Push object
+    updated[colIndex].cards.push(cardInput.trim());
     setColumns(updated);
     setCardInput('');
   };
@@ -158,9 +158,9 @@ function BoardColumn({ column, colIndex, columns, setColumns }) {
 
   const handleCardBlur = (index) => {
     const updated = [...columns];
-    updated[colIndex].cards[index].content = editedCardText; // ✅ Fix typo
+    updated[colIndex].cards[index] = editedCardText.trim() || column.cards[index];
     setColumns(updated);
-    setEditingCardIndex(null); // ✅ Exit editing mode
+    setEditingCardIndex(null);
   };
 
   const deleteCard = (index) => {
@@ -180,92 +180,102 @@ function BoardColumn({ column, colIndex, columns, setColumns }) {
             autoFocus
           />
         ) : (
-          <div>
-            <h3 onClick={() => setIsEditingTitle(true)}>
-              {column.title}
-              <span onClick={() => setIsEditingTitle(true)} className="pencil">
-                ✏️
-              </span>
-            </h3>
-          </div>
+          <h3 onClick={() => setIsEditingTitle(true)}>
+            {column.title}
+            <span onClick={() => setIsEditingTitle(true)} className="pencil"> ✏️</span>
+          </h3>
         )}
       </div>
 
-      <Droppable droppableId={colIndex.toString()}>
-        {(provided) => (
-          <div
-            className="column"
-            {...provided.droppableProps}
-            ref={provided.innerRef}
-          >
-            <List
-              height={300}
-              itemCount={column.cards.length}
-              itemSize={80}
-              width="100%"
+      <Droppable
+  droppableId={colIndex.toString()}
+  mode="virtual"
+  renderClone={(provided, snapshot, rubric) => {
+    const card = column.cards[rubric.source.index];
+    return (
+      <div
+        className="card"
+        ref={provided.innerRef}
+        {...provided.draggableProps}
+        {...provided.dragHandleProps}
+        style={provided.draggableProps.style}
+      >
+        <div className="card-content">{card}</div>
+      </div>
+    );
+  }}
+>
+  {(provided, snapshot) => {
+    const itemCount = column.cards.length;
+    const height = Math.min(5, itemCount) * 70 || 140;
+
+    return (
+      <List
+        height={height}
+        itemCount={itemCount}
+        itemSize={50}
+        width="100%"
+        outerRef={provided.innerRef}
+        itemData={{ cards: column.cards, provided }}
+      >
+        {({ index, style, data }) => {
+          const card = data.cards[index];
+          return (
+            <Draggable
+              key={`${colIndex}-${index}`}
+              draggableId={`${colIndex}-${index}`}
+              index={index}
             >
-              {({ index, style }) => {
-                const card = column.cards[index];
-                return (
-                  <Draggable
-                    key={`${colIndex}-${index}`}
-                    draggableId={`${colIndex}-${index}`}
-                    index={index}
-                  >
-                    {(provided) => (
-                      <div
-                        className="card"
-                        style={style}
-                        ref={provided.innerRef}
-                        {...provided.draggableProps}
-                        {...provided.dragHandleProps}
+              {(provided) => (
+                <div
+                  className="card"
+                  ref={provided.innerRef}
+                  {...provided.draggableProps}
+                  {...provided.dragHandleProps}
+                  style={{ ...style, ...provided.draggableProps.style }}
+                >
+                  <div className="card-content">
+                    {editingCardIndex === index ? (
+                      <input
+                        value={editedCardText}
+                        onChange={(e) => setEditedCardText(e.target.value)}
+                        onBlur={() => handleCardBlur(index)}
+                        autoFocus
+                      />
+                    ) : (
+                      <span
+                        onClick={() => {
+                          setEditingCardIndex(index);
+                          setEditedCardText(card);
+                        }} className='innercard'
                       >
-                        <div className="card-content">
-                          {editingCardIndex === index ? (
-                            <input
-                              value={editedCardText}
-                              onChange={(e) =>
-                                setEditedCardText(e.target.value)
-                              }
-                              onBlur={() => handleCardBlur(index)}
-                              autoFocus
-                            />
-                          ) : (
-                            <span
-                              onClick={() => {
-                                setEditingCardIndex(index);
-                                setEditedCardText(card.content);
-                              }}
-                            >
-                              {card.content}
-                            </span>
-                          )}
-                          <button
-                            className="delete-button"
-                            onClick={() => deleteCard(index)}
-                          >
-                            🗑️
-                          </button>
-                        </div>
-                      </div>
+                        {card}
+                      </span>
                     )}
-                  </Draggable>
-                );
-              }}
-            </List>
-            {provided.placeholder}
-          </div>
-        )}
-      </Droppable>
+                    <button
+                      className="delete-button"
+                      onClick={() => deleteCard(index)}
+                    >
+                      🗑️
+                    </button>
+                  </div>
+                </div>
+              )}
+            </Draggable>
+          );
+        }}
+      </List>
+    );
+  }}
+</Droppable>
+
 
       <input
         value={cardInput}
         onChange={(e) => setCardInput(e.target.value)}
         placeholder="Add a card"
       />
-      <button className="add-button" onClick={addCard}>
-        + Add
-      </button>
+      <button className="add-button" onClick={addCard}>+ Add</button>
     </div>
   );
 }

@@ -1,5 +1,4 @@
-/* Reset */
-/* APP.css */
+/* 
 * {
   margin: auto;
   padding: auto;
@@ -7,6 +6,89 @@
   
 }
 
+body {
+  background-color: #818585;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+
+.App {
+  height: 100vh;
+  padding: 30px;
+  text-align: center;
+}
+
+
+.App h1 {
+  font-size: 2.2rem;
+  color: #f7f4f1;
+  margin-bottom: 20px;
+}
+
+
+.App > button {
+  padding: 10px 20px;
+  margin-bottom: 20px;
+  font-size: 16px;
+  background-color: #0079bf;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.App > button:hover {
+  background-color: #026aa7;
+}
+
+
+.board {
+  display: flex;
+  flex-wrap: nowrap;         
+  background-color: #525455;
+  gap: 20px;
+  width: 100%;
+  height: 500px;            
+  overflow-x: auto;          
+  overflow-y: hidden;         
+  padding: 20px;
+  justify-content: flex-start;
+  align-items: flex-start;
+  scroll-behavior: smooth;
+
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+
+.column-wrapper {
+  flex: 0 0 auto;            
+  width: 280px;           
+}
+
+
+
+.board::-webkit-scrollbar {
+  height: 10px;
+}
+.board::-webkit-scrollbar-thumb {
+  background-color: #f2e9e9;
+  border-radius: 9px;
+}
+.board::-webkit-scrollbar-track {
+  background-color: #0c0b0b;
+} */
+
+
+/* Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Global Styles */
 body {
   background-color: #818585;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -44,40 +126,43 @@ body {
 }
 
 /* Board Layout */
-/* Ensure horizontal scrolling for board */
 .board {
   display: flex;
-  flex-wrap: nowrap;         
+  flex-wrap: nowrap;
   background-color: #525455;
   gap: 20px;
   width: 100%;
-  height: 500px;            
-  overflow-x: auto;          
-  overflow-y: hidden;         
+  height: 500px;
+  overflow-x: auto;
+  overflow-y: hidden;
   padding: 20px;
   justify-content: flex-start;
   align-items: flex-start;
   scroll-behavior: smooth;
-  /* background-color: #e2eaf3; */
   border-radius: 10px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* Make columns stay same size and not shrink */
+/* Column Wrapper */
 .column-wrapper {
-  flex: 0 0 auto;            
-  width: 280px;           
+  flex: 0 0 auto;
+  width: 280px;
+  background-color: #f4f5f7; /* Light background for columns */
+  border-radius: 8px;
+  padding: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-
-/* Scrollbar Styling */
+/* Scrollbar Styling for Board */
 .board::-webkit-scrollbar {
   height: 10px;
 }
+
 .board::-webkit-scrollbar-thumb {
   background-color: #f2e9e9;
   border-radius: 9px;
 }
+
 .board::-webkit-scrollbar-track {
   background-color: #0c0b0b;
 }
