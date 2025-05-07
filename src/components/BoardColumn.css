@@ -1,0 +1,122 @@
+/* Wrapper for each column */
+.column-wrapper {
+  background-color: #f4f5f7;
+  border-radius: 10px;
+  padding: 16px;
+  max-width: 300px;
+  margin: 0 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  
+}
+
+/* Column title */
+.column-wrapper h3 {
+  /* display: flex; */
+  font-size: 18px;
+  margin-bottom: 12px;
+  color: #333;
+  
+}
+
+/* The area where cards live */
+.column {
+  min-height: 200px;
+  padding: 8px;
+  background-color: #ebecf0;
+  border-radius: 8px;
+  transition: background-color 0.2s ease;
+  
+}
+
+/* Each draggable card */
+.card {
+  background-color: #fff;
+
+  border-radius: 6px;
+  padding: 10px 12px;
+  margin-bottom: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  cursor: grab;
+  font-size: 14px;
+  color: #222;
+  
+}
+
+/* Input field to add a card */
+.column-wrapper input {
+  width: 100%;
+  padding: 8px 10px;
+  margin-top: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+  
+}
+
+/* Add button */
+.add-button{
+  width: 100%;
+  margin-top: 6px;
+  padding: 8px 10px;
+  background-color: #bf5f00;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.column-wrapper button:hover {
+  background-color: #026aa7;
+}
+/* Scrollable card list */
+.card-list {
+  max-height: 300px; /* Adjust height as needed */
+  overflow-y: auto;
+  padding-right: 6px;
+  margin-bottom: 10px;
+ 
+}
+
+.card-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.card-list::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 3px;
+}
+
+.card-content {
+  
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.delete-button {
+  width: 25px;
+  height: 25px;
+  background-color: red;
+  border-radius: 5px;
+  /* background: transparent; */
+  border: none;
+  color: red;
+  cursor: pointer;
+  font-size: 15px;
+  margin-left: 90px;
+  padding: 0;
+  transition: transform 0.2s ease;
+}
+
+.delete-btn:hover {
+  transform: scale(1.2);
+}
+.pencil{
+ margin-left: 40px;
+ cursor: pointer;
+
+}
+
